@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Wheel of Doom</title>
+</head>
+<body>
+  <h1>Wheel of Doom</h1>
+
+  <input type="text" id="nuevoParticipante" placeholder="Nombre del participante">
+  <button onclick="agregarParticipante()">Añadir Participante</button>
+
+  <ul id="listaParticipantes"></ul>
+
+  <button onclick="iniciarJuego()">Start</button>
+  <p>Participante eliminado: <span id="participanteEliminado"></span></p>
+
+  <button onclick="reiniciarJuego()">Reiniciar Juego</button>
+
+  <script>
+    let participantes = [];
+
+    function agregarParticipante() {
+      const nuevoParticipante = document.getElementById("nuevoParticipante").value.trim();
+      if (nuevoParticipante !== "") {
+        participantes.push(nuevoParticipante);
+        actualizarListaParticipantes();
+        document.getElementById("nuevoParticipante").value = "";
+      }
+    }
+
+    function actualizarListaParticipantes() {
+      const listaParticipantes = document.getElementById("listaParticipantes");
+      listaParticipantes.innerHTML = participantes.map(participante => `<li>${participante}</li>`).join('');
+    }
+
+    function iniciarJuego() {
+      if (participantes.length > 0) {
+        const indiceAleatorio = Math.floor(Math.random() * participantes.length);
+        const participanteEliminado = participantes.splice(indiceAleatorio, 1)[0];
+        document.getElementById("participanteEliminado").textContent = participanteEliminado;
+        actualizarListaParticipantes();
+      } else {
+        alert("No hay participantes en el juego.");
+      }
+    }
+
+    function reiniciarJuego() {
+      participantes = [];
+      document.getElementById("participanteEliminado").textContent = "";
+      actualizarListaParticipantes();
+    }
+  </script>
+</body>
+</html>
